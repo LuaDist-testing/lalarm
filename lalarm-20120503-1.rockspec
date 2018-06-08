@@ -1,16 +1,16 @@
 -- This file was automatically generated for the LuaDist project.
 
 package="lalarm"
-version="20090501-2"
+version="20120503-1"
 -- LuaDist source
 source = {
-  tag = "20090501-2",
+  tag = "20120503-1",
   url = "git://github.com/LuaDist-testing/lalarm.git"
 }
 -- Original source
 -- source = {
 --    url = "http://www.tecgraf.puc-rio.br/~lhf/ftp/lua/5.1/lalarm.tar.gz",
---    md5 = "bc276f7f24cb9e7dc4dca42ba7ab801b",
+--    md5="aba607541310c43da9c5b4109fa7c346",
 --    dir = "alarm"
 -- }
 description = {

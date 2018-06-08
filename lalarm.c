@@ -2,7 +2,7 @@
 * lalarm.c
 * an alarm library for Lua 5.1 based on signal
 * Luiz Henrique de Figueiredo <lhf@tecgraf.puc-rio.br>
-* 01 May 2009 10:40:56
+* 03 May 2012 00:26:33
 * This code is hereby placed in the public domain.
 */
 
@@ -21,10 +21,10 @@ static int oldcount=0;
 
 static void l_handler(lua_State *L, lua_Debug *ar)
 {
+ (void) ar;
  L=LL;
  lua_sethook(L,oldhook,oldmask,oldcount);
- lua_pushliteral(L,NAME);
- lua_gettable(L,LUA_REGISTRYINDEX);
+ lua_getfield(L,LUA_REGISTRYINDEX,NAME);
  lua_call(L,0,0);
 }
 
@@ -45,15 +45,13 @@ static int l_alarm(lua_State *L) 		/** alarm([secs,[func]]) */
   case 0:
 	break;
   case 1:
-	lua_pushliteral(L,NAME);
-	lua_gettable(L,LUA_REGISTRYINDEX);
+	lua_getfield(L,LUA_REGISTRYINDEX,NAME);
 	if (lua_isnil(L,-1)) luaL_error(L,"no alarm handler set");
 	break;
   default:
+	lua_settop(L,2);
 	luaL_checktype(L,2,LUA_TFUNCTION);
-	lua_pushliteral(L,NAME);
-	lua_pushvalue(L,2);
-	lua_settable(L,LUA_REGISTRYINDEX);
+	lua_setfield(L,LUA_REGISTRYINDEX,NAME);
 	break;
  }
  if (signal(SIGALRM,l_signal)==SIG_ERR)

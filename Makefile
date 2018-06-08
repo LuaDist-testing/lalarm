@@ -1,7 +1,7 @@
 # makefile for alarm library for Lua
 
 # change these to reflect your Lua installation
-LUA= /tmp/lhf/lua-5.1.4
+LUA= /tmp/lhf/lua-5.1.5
 LUAINC= $(LUA)/src
 LUALIB= $(LUA)/src
 LUABIN= $(LUA)/src
@@ -15,10 +15,10 @@ LUABIN= $(LUA)/src
 # probably no need to change anything below here
 CC= gcc
 CFLAGS= $(INCS) $(WARN) -O2 $G
-WARN= -pedantic -Wall
+WARN= -pedantic -Wall -Wextra
 INCS= -I$(LUAINC)
 MAKESO= $(CC) -shared
-#MAKESO= env MACOSX_DEPLOYMENT_TARGET=10.3 $(CC) -bundle -undefined dynamic_lookup
+#MAKESO= $(CC) -bundle -undefined dynamic_lookup
 
 MYNAME= alarm
 MYLIB= l$(MYNAME)
@@ -44,21 +44,5 @@ clean:
 doc:
 	@echo "$(MYNAME) library:"
 	@fgrep '/**' $(MYLIB).c | cut -f2 -d/ | tr -d '*' | sort | column
-
-# distribution
-
-FTP= $(HOME)/public/ftp/lua/5.1
-D= $(MYNAME)
-A= $(MYLIB).tar.gz
-TOTAR= Makefile,README,$(MYLIB).c,test.lua
-
-distr:	clean
-	tar zcvf $A -C .. $D/{$(TOTAR)}
-	touch -r $A .stamp
-	mv $A $(FTP)
-
-diff:	clean
-	tar zxf $(FTP)/$A
-	diff $D .
 
 # eof
